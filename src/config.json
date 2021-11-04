@@ -1,0 +1,434 @@
+{
+  "name": "AWS-Code-Deploy",
+  "type": "executer",
+  "imgUrl": "logo.png",
+  "execProgram": "node",
+  "main": "app.js",
+  "version": "1.0.0",
+  "description": "Integration with AWS Code Deploy API.",
+  "category": "CI-CD",
+  "keywords": ["aws", "amazon", "code", "cloud", "cluster", "vm", "cli", "instance", "service", "deployment"],
+  "settings": [
+    {
+      "name": "accessKeyId",
+      "viewName": "Access key",
+      "type": "string",
+      "description": "The default Access Key ID to use to authenticate to AWS.",
+      "placeholder": "AKIAIOSFODNN7EXAMPLE",
+      "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+    },
+    {
+      "name": "secretAccessKey",
+      "viewName": "Secret key",
+      "type": "vault",
+      "description": "The default Access Key Secret to use to authenticate to AWS.",
+      "placeholder": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+      "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+    },
+    {
+      "name": "region",
+      "viewName": "Region",
+      "type": "string",
+      "description": "The default AWS region to make requests on.",
+      "placeholder": "us-east-2",
+      "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
+    }
+  ],
+  "methods": [
+    {
+      "name": "createApplication",
+      "viewName": "Create Application",
+      "params": [
+        {
+          "name": "accessKeyId",
+          "viewName": "Access key",
+          "type": "string",
+          "description": "The Access Key ID to use to authenticate to AWS for this request.",
+          "placeholder": "AKIAIOSFODNN7EXAMPLE",
+          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+        },
+        {
+          "name": "secretAccessKey",
+          "viewName": "Secret key",
+          "type": "vault",
+          "description": "The Access Key Secret to use to authenticate to AWS for this request.",
+          "placeholder": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+        },
+        {
+          "name": "region",
+          "viewName": "Region",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listRegionsAuto",
+          "description": "The AWS region to make this request on.",
+          "placeholder": "us-east-2",
+          "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
+        },
+        {
+          "name": "name",
+          "viewName": "Name",
+          "type": "string",
+          "description": "The name of the application. This name must be unique with the applicable IAM user or AWS account.",
+          "placeholder": "kaholoApp",
+          "learnUrl": "https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CodeDeploy.html#createApplication-property"
+        },
+        {
+          "name": "computePlatform",
+          "viewName": "Compute Platform Type",
+          "type": "options",
+          "description": "The destination platform type for the deployment.",
+          "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/welcome.html#compute-platform",
+          "options": [
+            {
+              "id": "Server",
+              "name": "EC2/On-premises"
+            },
+            {
+              "id": "Lambda",
+              "name": "Lambda"
+            },
+            {
+              "id": "ECS",
+              "name": "ECS"
+            }
+          ]
+        },
+        {
+          "name": "tags",
+          "viewName": "Tags",
+          "type": "text",
+          "description": "If specified, tag the application with the tags specified. Each tag should either be in the format of Key=Value or just Key. To enter multiple values separate each with a new line. Also accepts getting an array of objects in the form of { Key, Value } or { Key }.",
+          "placeholder": "DEV_APPS\nAuthor=My Name"
+        }
+      ]
+    },
+    {
+      "name": "createDeploymentGroup",
+      "viewName": "Create Deployment Group",
+      "params": [
+        {
+          "name": "accessKeyId",
+          "viewName": "Access key",
+          "type": "string",
+          "description": "The Access Key ID to use to authenticate to AWS for this request.",
+          "placeholder": "AKIAIOSFODNN7EXAMPLE",
+          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+        },
+        {
+          "name": "secretAccessKey",
+          "viewName": "Secret key",
+          "type": "vault",
+          "description": "The Access Key Secret to use to authenticate to AWS for this request.",
+          "placeholder": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+        },
+        {
+          "name": "region",
+          "viewName": "Region",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listRegionsAuto",
+          "description": "The AWS region to make this request on.",
+          "placeholder": "us-east-2",
+          "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
+        },
+        {
+          "name": "application",
+          "viewName": "Application",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listAppsAuto",
+          "description": "The AWS CodeDeploy application to store the deployment group on.",
+          "placeholder": "kaholoApp",
+          "learnUrl": "https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CodeDeploy.html#createDeploymentConfig-property"
+        },
+        {
+          "name": "name",
+          "viewName": "Name",
+          "type": "string",
+          "description": "The name to give the new deployment group.",
+          "placeholder": "Developers1",
+          "learnUrl": "https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CodeDeploy.html#createDeploymentConfig-property"
+        },
+        {
+          "name": "serviceRole",
+          "viewName": "Service Role",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listRolesAuto",
+          "description": "A service role that allows AWS CodeDeploy to act on the user's behalf when interacting with AWS services.",
+          "placeholder": "admin",
+          "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-create-service-role.html"
+        },
+        {
+          "name": "deploymentType",
+          "viewName": "Deployment Type",
+          "type": "options",
+          "description": "Choose how to deploy your application.",
+          "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-groups-create.html",
+          "options": [
+            {
+              "id": "IN_PLACE",
+              "name": "In-place"
+            },
+            {
+              "id": "BLUE_GREEN",
+              "name": "Blue/green"
+            }
+          ]
+        },
+        {
+          "name": "copyAutoScalingGroup",
+          "viewName": "Copy Auto Scaling Group",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listAutoScalingGroupsAuto",
+          "description": "Only for blue/green deployment type. If specified, automatically copy the specified EC2 Auto Scaling group for the environment configuration.",
+          "placeholder": "auto_scale_group1",
+          "learnUrl": "https://aws.amazon.com/blogs/devops/performing-bluegreen-deployments-with-aws-codedeploy-and-auto-scaling-groups/"
+        },
+        {
+          "name": "autoScalingGroups",
+          "viewName": "Environment Auto Scaling Groups",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listAutoScalingGroupsAuto",
+          "description": "A list of associated Amazon EC2 Auto Scaling groups. Can only be provided if didn't specify 'Copy Auto Scaling Group'. You can select up to 10 Amazon EC2 Auto Scaling groups to deploy your application revision to. To enter multiple groups provide an array of their IDs from code.",
+          "placeholder": "auto_scale_group1",
+          "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html"
+        },
+        {
+          "name": "ec2TagFilters",
+          "viewName": "Environment EC2 Instances Tag Filters",
+          "type": "text",
+          "description": "The Amazon EC2 tags on which to filter. The deployment group includes EC2 instances with any of the specified tags. Can only be provided if didn't specify 'Copy Auto Scaling Group'.",
+          "placeholder": "tag1\nenv = dev",
+          "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/instances-tagging.html"
+        },
+        {
+          "name": "onPremisesInstanceTagFilters ",
+          "viewName": "Environment On-premises Instances Tag Filters",
+          "type": "text",
+          "description": "The on-premises instance tags on which to filter. The deployment group includes on-premises instances with any of the specified tags. Can only be provided for 'In-place' deployments type",
+          "placeholder": "tag1\nenv = dev",
+          "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/instances-tagging.html"
+        },
+        {
+          "name": "deploymentConfig",
+          "viewName": "Deployment Configuration",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listDeploymentsConfigsAuto",
+          "description": "Choose from a list of default and custom deployment configurations. A deployment configuration is a set of rules that determines how fast an application is deployed and the success or failure conditions for a deployment.",
+          "placeholder": "CodeDeployDefault.AllAtOnce",
+          "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations.html"
+        },
+        {
+          "name": "loadBalancingType",
+          "viewName": "Load Balancing",
+          "type": "options",
+          "description": "Choose whether to enable load balancing and if so the type of load balancer to use.",
+          "placeholder": "Classic",
+          "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-elastic-load-balancing.html",
+          "options": [
+            {
+              "id": "None",
+              "name": "None"
+            },
+            {
+              "id": "Classic",
+              "name": "Classic"
+            },
+            {
+              "id": "Application",
+              "name": "Application/Network"
+            }
+          ]
+        },
+        {
+          "name": "loadBalancer",
+          "viewName": "Classic Load Balancer",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listLoadBalancersAuto",
+          "description": "Use the specified load balancer(s) for load balancing in a deployment. Only for 'Classic' Load Balancing.",
+          "placeholder": "LoadBalancer1",
+          "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-elastic-load-balancing.html"
+        },
+        {
+          "name": "elbTargetGroup",
+          "viewName": "Application Load Balancer Target Group",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listElbTargetGroupsuto",
+          "description": "Use the specified target group to select application/network load balancer to use in deployment. Only for Application/Network Load Balancing. ",
+          "placeholder": "CodeDeployDefault.AllAtOnce",
+          "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-elastic-load-balancing.html"
+        }
+      ]
+    },
+    {
+      "name": "createDeploymentConfig",
+      "viewName": "Create Deployment Config",
+      "params": [
+        {
+          "name": "accessKeyId",
+          "viewName": "Access key",
+          "type": "string",
+          "description": "The Access Key ID to use to authenticate to AWS for this request.",
+          "placeholder": "AKIAIOSFODNN7EXAMPLE",
+          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+        },
+        {
+          "name": "secretAccessKey",
+          "viewName": "Secret key",
+          "type": "vault",
+          "description": "The Access Key Secret to use to authenticate to AWS for this request.",
+          "placeholder": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+        },
+        {
+          "name": "region",
+          "viewName": "Region",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listRegionsAuto",
+          "description": "The AWS region to make this request on.",
+          "placeholder": "us-east-2",
+          "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
+        },
+        {
+          "name": "name",
+          "viewName": "Name",
+          "type": "string",
+          "description": "Deployment configuration name. Up to 100 chars.",
+          "placeholder": "config_dev",
+          "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations.html"
+        },
+        {
+          "name": "computePlatform",
+          "viewName": "Compute Platform Type",
+          "type": "options",
+          "description": "The destination platform type for the deployment.",
+          "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/welcome.html#compute-platform",
+          "options": [
+            {
+              "id": "Server",
+              "name": "EC2/On-premises"
+            },
+            {
+              "id": "Lambda",
+              "name": "Lambda"
+            },
+            {
+              "id": "ECS",
+              "name": "ECS"
+            }
+          ]
+        },
+        {
+          "name": "minHealthyHostsNum",
+          "viewName": "Minimum Healthy Hosts By Number",
+          "type": "string",
+          "description": "Specify the minimum number of healthy Amazon EC2 instances that must be available at any time during the deployment.",
+          "placeholder": "5",
+          "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations.html"
+        },
+        {
+          "name": "minHealthyHostsPercent",
+          "viewName": "Minimum Healthy Hosts By Percentage",
+          "type": "string",
+          "description": "Specify the minimum percentage of healthy Amazon EC2 instances out of all the ones provided, that must be available at any time during the deployment. Expects an integer between 1-99.",
+          "placeholder": "1-99",
+          "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations.html"
+        }
+      ]
+    },
+    {
+      "name": "listApps",
+      "viewName": "List Applications",
+      "params": [
+        {
+          "name": "accessKeyId",
+          "viewName": "Access key",
+          "type": "string",
+          "description": "The Access Key ID to use to authenticate to AWS for this request.",
+          "placeholder": "AKIAIOSFODNN7EXAMPLE",
+          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+        },
+        {
+          "name": "secretAccessKey",
+          "viewName": "Secret key",
+          "type": "vault",
+          "description": "The Access Key Secret to use to authenticate to AWS for this request.",
+          "placeholder": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+        },
+        {
+          "name": "region",
+          "viewName": "Region",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listRegionsAuto",
+          "description": "The AWS region to make this request on.",
+          "placeholder": "us-east-2",
+          "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
+        }
+      ]
+    },
+    {
+      "name": "listDeploymentsConfigs",
+      "viewName": "List Deployments Configurations",
+      "params": [
+        {
+          "name": "accessKeyId",
+          "viewName": "Access key",
+          "type": "string",
+          "description": "The Access Key ID to use to authenticate to AWS for this request.",
+          "placeholder": "AKIAIOSFODNN7EXAMPLE",
+          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+        },
+        {
+          "name": "secretAccessKey",
+          "viewName": "Secret key",
+          "type": "vault",
+          "description": "The Access Key Secret to use to authenticate to AWS for this request.",
+          "placeholder": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+        },
+        {
+          "name": "region",
+          "viewName": "Region",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listRegionsAuto",
+          "description": "The AWS region to make this request on.",
+          "placeholder": "us-east-2",
+          "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
+        },
+        {
+          "name": "computePlatform",
+          "viewName": "Compute Platform Type",
+          "type": "options",
+          "description": "The compute platform type of the configuration.",
+          "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/welcome.html#compute-platform",
+          "options": [
+            {
+              "id": "Server",
+              "name": "EC2/On-premises"
+            },
+            {
+              "id": "Lambda",
+              "name": "Lambda"
+            },
+            {
+              "id": "ECS",
+              "name": "ECS"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
