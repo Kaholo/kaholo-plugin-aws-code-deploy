@@ -4,7 +4,7 @@
   "imgUrl": "logo.png",
   "execProgram": "node",
   "main": "app.js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Integration with AWS Code Deploy API.",
   "category": "CI-CD",
   "keywords": ["aws", "amazon", "code", "cloud", "cluster", "vm", "cli", "instance", "service", "deployment"],
@@ -37,7 +37,7 @@
   "methods": [
     {
       "name": "createApplication",
-      "viewName": "Create Application",
+      "viewName": "Create EC2 Application",
       "params": [
         {
           "name": "accessKeyId",
@@ -74,27 +74,6 @@
           "learnUrl": "https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CodeDeploy.html#createApplication-property"
         },
         {
-          "name": "computePlatform",
-          "viewName": "Compute Platform Type",
-          "type": "options",
-          "description": "The destination platform type for the deployment.",
-          "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/welcome.html#compute-platform",
-          "options": [
-            {
-              "id": "Server",
-              "name": "EC2/On-premises"
-            },
-            {
-              "id": "Lambda",
-              "name": "Lambda"
-            },
-            {
-              "id": "ECS",
-              "name": "ECS"
-            }
-          ]
-        },
-        {
           "name": "tags",
           "viewName": "Tags",
           "type": "text",
@@ -105,7 +84,7 @@
     },
     {
       "name": "createDeploymentGroup",
-      "viewName": "Create Deployment Group",
+      "viewName": "Create In-place Deployment Group",
       "params": [
         {
           "name": "accessKeyId",
@@ -162,39 +141,12 @@
           "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-create-service-role.html"
         },
         {
-          "name": "deploymentType",
-          "viewName": "Deployment Type",
-          "type": "options",
-          "description": "Choose how to deploy your application.",
-          "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-groups-create.html",
-          "options": [
-            {
-              "id": "IN_PLACE",
-              "name": "In-place"
-            },
-            {
-              "id": "BLUE_GREEN",
-              "name": "Blue/green"
-            }
-          ]
-        },
-        {
-          "name": "copyAutoScalingGroup",
-          "viewName": "Copy Auto Scaling Group",
-          "type": "autocomplete",
-          "autocompleteType": "function",
-          "functionName": "listAutoScalingGroupsAuto",
-          "description": "Only for blue/green deployment type. If specified, automatically copy the specified EC2 Auto Scaling group for the environment configuration.",
-          "placeholder": "auto_scale_group1",
-          "learnUrl": "https://aws.amazon.com/blogs/devops/performing-bluegreen-deployments-with-aws-codedeploy-and-auto-scaling-groups/"
-        },
-        {
           "name": "autoScalingGroups",
           "viewName": "Environment Auto Scaling Groups",
           "type": "autocomplete",
           "autocompleteType": "function",
           "functionName": "listAutoScalingGroupsAuto",
-          "description": "A list of associated Amazon EC2 Auto Scaling groups. Can only be provided if didn't specify 'Copy Auto Scaling Group'. You can select up to 10 Amazon EC2 Auto Scaling groups to deploy your application revision to. To enter multiple groups provide an array of their IDs from code.",
+          "description": "A list of associated Amazon EC2 Auto Scaling groups. You can select up to 10 Amazon EC2 Auto Scaling groups to deploy your application revision to. To enter multiple groups provide an array of their IDs from code.",
           "placeholder": "auto_scale_group1",
           "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html"
         },
@@ -202,12 +154,12 @@
           "name": "ec2TagFilters",
           "viewName": "Environment EC2 Instances Tag Filters",
           "type": "text",
-          "description": "The Amazon EC2 tags on which to filter. The deployment group includes EC2 instances with any of the specified tags. Can only be provided if didn't specify 'Copy Auto Scaling Group'.",
+          "description": "The Amazon EC2 tags on which to filter. The deployment group includes EC2 instances with any of the specified tags.",
           "placeholder": "tag1\nenv = dev",
           "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/instances-tagging.html"
         },
         {
-          "name": "onPremisesInstanceTagFilters ",
+          "name": "onPremisesInstanceTagFilters",
           "viewName": "Environment On-premises Instances Tag Filters",
           "type": "text",
           "description": "The on-premises instance tags on which to filter. The deployment group includes on-premises instances with any of the specified tags. Can only be provided for 'In-place' deployments type",
@@ -270,7 +222,7 @@
     },
     {
       "name": "createDeploymentConfig",
-      "viewName": "Create Deployment Config",
+      "viewName": "Create EC2 Deployment Config",
       "params": [
         {
           "name": "accessKeyId",
@@ -305,27 +257,6 @@
           "description": "Deployment configuration name. Up to 100 chars.",
           "placeholder": "config_dev",
           "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations.html"
-        },
-        {
-          "name": "computePlatform",
-          "viewName": "Compute Platform Type",
-          "type": "options",
-          "description": "The destination platform type for the deployment.",
-          "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/welcome.html#compute-platform",
-          "options": [
-            {
-              "id": "Server",
-              "name": "EC2/On-premises"
-            },
-            {
-              "id": "Lambda",
-              "name": "Lambda"
-            },
-            {
-              "id": "ECS",
-              "name": "ECS"
-            }
-          ]
         },
         {
           "name": "minHealthyHostsNum",
@@ -379,7 +310,7 @@
     },
     {
       "name": "listDeploymentsConfigs",
-      "viewName": "List Deployments Configurations",
+      "viewName": "List EC2 Deployments Configurations",
       "params": [
         {
           "name": "accessKeyId",
@@ -406,27 +337,6 @@
           "description": "The AWS region to make this request on.",
           "placeholder": "us-east-2",
           "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
-        },
-        {
-          "name": "computePlatform",
-          "viewName": "Compute Platform Type",
-          "type": "options",
-          "description": "The compute platform type of the configuration.",
-          "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/welcome.html#compute-platform",
-          "options": [
-            {
-              "id": "Server",
-              "name": "EC2/On-premises"
-            },
-            {
-              "id": "Lambda",
-              "name": "Lambda"
-            },
-            {
-              "id": "ECS",
-              "name": "ECS"
-            }
-          ]
         }
       ]
     }
