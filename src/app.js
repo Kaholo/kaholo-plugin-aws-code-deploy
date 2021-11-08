@@ -3,28 +3,23 @@ const parsers = require("./parsers");
 const CodeDeployService = require('./aws.codeDeploy.service');
 
 async function createApplication(action, settings){
-    const {name, computePlatform, tags } = action.params;
+    const {name, tags } = action.params;
     const client = CodeDeployService.from(action.params, settings);
     return client.createApplication({
         name: parsers.string(name),
-        tags: parsers.tags(tags), 
-        computePlatform
+        tags: parsers.tags(tags)
     });
 }
 
 async function createDeploymentGroup(action, settings){
-    const { name, deploymentType, ec2TagFilters, onPremisesInstanceTagFilters, 
-        loadBalancingType, application, serviceRole, copyAutoScalingGroup, 
-        autoScalingGroups, deploymentConfig, loadBalancer, elbTargetGroup} = action.params;
-
+    const { name, ec2TagFilters, onPremisesInstanceTagFilters, loadBalancingType, application,
+        serviceRole, autoScalingGroups, deploymentConfig, loadBalancer, elbTargetGroup} = action.params;
     
     const client = CodeDeployService.from(action.params, settings);
     return client.createDeploymentGroup({
         application: parsers.autocomplete(application),
         name: parsers.string(name),
         serviceRole: parsers.autocomplete(serviceRole),
-        deploymentType: deploymentType,
-        copyAutoScalingGroup: parsers.autocomplete(copyAutoScalingGroup),
         autoScalingGroups: parsers.array(parsers.autocomplete(autoScalingGroups)),
         ec2TagFilters: parsers.tags(ec2TagFilters),
         onPremisesInstanceTagFilters : parsers.tags(onPremisesInstanceTagFilters),
@@ -36,12 +31,11 @@ async function createDeploymentGroup(action, settings){
 }
 
 async function createDeploymentConfig(action, settings){
-    const { name, computePlatform, minHealthyHostsNum, minHealthyHostsPercent } = action.params;
+    const { name, minHealthyHostsNum, minHealthyHostsPercent } = action.params;
     
     const client = CodeDeployService.from(action.params, settings);
     return client.createDeploymentConfig({
         name: parsers.string(name),
-        computePlatform: computePlatform,
         minHealthyHostsNum: parsers.number(minHealthyHostsNum),
         minHealthyHostsPercent: parsers.number(minHealthyHostsPercent)
     });
@@ -53,12 +47,8 @@ async function listApps(action, settings){
 } 
 
 async function listDeploymentsConfigs(action, settings){
-    const { computePlatform } = action.params;
     const client = CodeDeployService.from(action.params, settings);
-    return client.listApps({
-        listAll: true,
-        computePlatform
-    });
+    return client.listApps({listAll: true,});
 } 
 
 module.exports = {

@@ -66,5 +66,5 @@ module.exports = {
   listAutoScalingGroupsAuto: listAuto("listAutoScalingGroups", "AutoScalingGroups", ["AutoScalingGroupName"]),
   listDeploymentsConfigsAuto: listAuto("listDeploymentsConfigs", "deploymentConfigsList"),
   listLoadBalancersAuto: listAuto("listLoadBalancers", "LoadBalancerDescriptions", ["LoadBalancerName"]),
-  listElbTargetGroupsuto: listAuto("listElbTargetGroupsuto", "TargetGroups", ["TargetGroupName"])
+  listElbTargetGroupsuto: listAuto("listElbTargetGroups", "TargetGroups", ["TargetGroupName"])
 }

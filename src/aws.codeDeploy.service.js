@@ -7,6 +7,7 @@ const codeDeployAsyncs = ["createApplication", "createDeploymentGroup", "createD
 module.exports = class CodeDeployService{
     constructor({accessKeyId, secretAccessKey, region}){
         if (!accessKeyId || !secretAccessKey || !region) throw "Didn't provide access key or region!";
+        
         const creds = {accessKeyId, secretAccessKey, region};
         this.codeDeploy = new AWS.CodeDeploy(creds);
         this.ec2 = new AWS.EC2(creds);
@@ -34,52 +35,54 @@ module.exports = class CodeDeployService{
         });
     }
     
-    async createApplication({name, computePlatform, tags}){
-        if (!name || !computePlatform) throw "Must provide application name and compute platform type!";
+    async createApplication({name, tags}){
+        if (!name) throw "Must provide application name!";
+
         return this.aws.createApplication({
             applicationName: name,
-            computePlatform, tags
+            computePlatform: "Server",
+            tags
         });
     }
     
-    async createDeploymentGroup({application, name, serviceRole, deploymentType, copyAutoScalingGroup, 
-                                autoScalingGroups, ec2TagFilters, onPremisesInstanceTagFilters , deploymentConfig, 
-                                loadBalancingType, loadBalancer, elbTargetGroup}){
-        if (!application || !name || !serviceRole || !deploymentType) throw "Didn't provide all required parameters."
+    async createDeploymentGroup({application, name, serviceRole,autoScalingGroups, ec2TagFilters, onPremisesInstanceTagFilters, 
+                                 deploymentConfig, loadBalancingType, loadBalancer, elbTargetGroup}){
+        if (!application || !name || !serviceRole) throw "Didn't provide all required parameters."
         if (loadBalancingType === "Classic" && !loadBalancer) throw "Must provide a loadBalancer if specified 'Classic' load balancing.";
         if (loadBalancingType === "Application" && !elbTargetGroup) throw "Must provide an ELB target group if specified 'Application/Network' load balancing.";
+
+        const addTagType = (tag) => ({...tag, Type: tag.Value ? "KEY_AND_VALUE" : "KEY_ONLY"});
         const params = {
             applicationName: application,
             deploymentGroupName: name,
             serviceRoleArn: serviceRole,
-            autoScalingGroups: copyAutoScalingGroup ? [copyAutoScalingGroup] : autoScalingGroups,
-            blueGreenDeploymentConfiguration: deploymentType === "BLUE_GREEN" ? {
-                greenFleetProvisioningOption: copyAutoScalingGroup ? "COPY_AUTO_SCALING_GROUP" : "DISCOVER_EXISTING "
-            } : undefined,
             deploymentConfigName: deploymentConfig,
             deploymentStyle: {
                 deploymentOption: !loadBalancingType || loadBalancingType === "None" ? "WITHOUT_TRAFFIC_CONTROL" : "WITH_TRAFFIC_CONTROL",
-                deploymentType
+                deploymentType: "IN_PLACE"
             },
             loadBalancerInfo: !loadBalancingType || loadBalancingType === "None" ? undefined : {
                 elbInfoList: loadBalancingType === "Classic" && loadBalancer ? [{name: loadBalancer}] : undefined,
                 targetGroupInfoList: loadBalancingType === "Application" && elbTargetGroup ? [{name: elbTargetGroup}] : undefined,
             },
-            ec2TagFilters, onPremisesInstanceTagFilters
+            ec2TagFilters: ec2TagFilters ? ec2TagFilters.map(addTagType) : undefined,
+            onPremisesInstanceTagFilters: onPremisesInstanceTagFilters ? onPremisesInstanceTagFilters.map(addTagType) : undefined,
+            autoScalingGroups
         };
         return this.aws.createDeploymentGroup(params);
     }
     
-    async createDeploymentConfig({name, computePlatform, minHealthyHostsNum, minHealthyHostsPercent}){
-        if (!computePlatform || !name || !(minHealthyHostsNum || minHealthyHostsPercent)) throw "Didn't provide all required parameters.";
+    async createDeploymentConfig({name, minHealthyHostsNum, minHealthyHostsPercent}){
+        if (!name || !(minHealthyHostsNum || minHealthyHostsPercent)) throw "Didn't provide all required parameters.";
         if (minHealthyHostsPercent && minHealthyHostsNum) throw "Can't provide both minimum by number and by percentage.";
+
         return this.aws.createDeploymentConfig({
             deploymentConfigName: name,
             minimumHealthyHosts: {
                 type: minHealthyHostsNum ? "HOST_COUNT" : "FLEET_PERCENT",
                 value: minHealthyHostsNum || minHealthyHostsPercent
             },
-            computePlatform
+            computePlatform: "Server"
         });
     }
     
@@ -116,16 +119,14 @@ module.exports = class CodeDeployService{
         return this.aws.describeAutoScalingGroups({NextToken: nextToken});
     }
     
-    async listDeploymentsConfigs({computePlatform, nextToken, listAll}){
-        const validateComputePlatform = computePlatform ? (deploymentConfigName) => this.aws.getDeploymentConfig({deploymentConfigName}).computePlatform === computePlatform : undefined;
+    async listDeploymentsConfigs({nextToken, listAll}){
+        const validateComputePlatform = (deploymentConfigName) => this.aws.getDeploymentConfig({deploymentConfigName}).computePlatform === "Server";
         if (listAll){
             const result = await this.listAll("listDeploymentConfigs", "deploymentConfigsList");
-            return computePlatform ? result.filter(validateComputePlatform) : result;
+            return result.filter(validateComputePlatform);
         }
         const result = await this.aws.listDeploymentConfigs({nextToken});
-        if (computePlatform){
-            result.deploymentConfigsList = result.deploymentConfigsList.filter(validateComputePlatform);
-        }
+        result.deploymentConfigsList = result.deploymentConfigsList.filter(validateComputePlatform);
         return result;
     }
     
