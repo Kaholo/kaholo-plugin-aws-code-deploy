@@ -1,12 +1,13 @@
 {
-  "name": "AWS-Code-Deploy",
+  "id": "aws-codedeploy",
+  "name": "AWS CodeDeploy",
   "type": "executer",
   "imgUrl": "logo.png",
   "execProgram": "node",
   "main": "app.js",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Integration with AWS Code Deploy API.",
-  "category": "CI-CD",
+  "category": "CI/CD",
   "keywords": ["aws", "amazon", "code", "cloud", "cluster", "vm", "cli", "instance", "service", "deployment"],
   "settings": [
     {
