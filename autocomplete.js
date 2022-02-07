@@ -63,7 +63,12 @@ function listAuto(listFuncName, outputName, fields = []) {
 async function listRegions(query, pluginSettings, actionParams) {
   let [  settings, params  ] = [ mapAutoParams(pluginSettings), mapAutoParams(actionParams) ];
   params = { ...params, region: params.region || "eu-west-2" };
-  const client = CodeDeployService.from(params, settings);
+  let client;
+  try {
+    client = CodeDeployService.from(params, settings);
+  } catch (e) {
+    throw MISSING_OR_INCORRECT_CREDENTIALS_ERROR;
+  }
 
   const ec2RegionsPromise = client.listRegions();
   const lightsailRegionsPromise = client.lightsail.getRegions().promise();
