@@ -62,7 +62,6 @@ function listAuto(listFuncName, outputName, fields = []) {
 
 async function listRegions(query, pluginSettings, actionParams) {
   let [  settings, params  ] = [ mapAutoParams(pluginSettings), mapAutoParams(actionParams) ];
-  console.error(params);
   params = { ...params, region: params.region || "eu-west-2" };
   const client = CodeDeployService.from(params, settings);
 
