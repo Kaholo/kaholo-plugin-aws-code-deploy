@@ -7,13 +7,14 @@ const codeDeployAsyncs = ["createApplication", "createDeploymentGroup", "createD
 module.exports = class CodeDeployService{
     constructor({accessKeyId, secretAccessKey, region}){
         if (!accessKeyId || !secretAccessKey || !region) throw "Didn't provide access key or region!";
-        
+
         const creds = {accessKeyId, secretAccessKey, region};
         this.codeDeploy = new AWS.CodeDeploy(creds);
         this.ec2 = new AWS.EC2(creds);
         this.iam = new AWS.IAM(creds);
         this.elb = new AWS.ELB(creds);
         this.elb2 = new AWS.ELBv2(creds);
+        this.lightsail = new AWS.Lightsail(creds);
         this.autoScaling = new AWS.AutoScaling(creds);
         this.aws = {
             describeRegions: promisify(this.ec2.describeRegions).bind(this.ec2),
@@ -34,7 +35,7 @@ module.exports = class CodeDeployService{
             region: parsers.autocomplete(params.region || settings.region)
         });
     }
-    
+
     async createApplication({name, tags}){
         if (!name) throw "Must provide application name!";
 
@@ -44,8 +45,8 @@ module.exports = class CodeDeployService{
             tags
         });
     }
-    
-    async createDeploymentGroup({application, name, serviceRole,autoScalingGroups, ec2TagFilters, onPremisesInstanceTagFilters, 
+
+    async createDeploymentGroup({application, name, serviceRole,autoScalingGroups, ec2TagFilters, onPremisesInstanceTagFilters,
                                  deploymentConfig, loadBalancingType, loadBalancer, elbTargetGroup}){
         if (!application || !name || !serviceRole) throw "Didn't provide all required parameters."
         if (loadBalancingType === "Classic" && !loadBalancer) throw "Must provide a loadBalancer if specified 'Classic' load balancing.";
@@ -71,7 +72,7 @@ module.exports = class CodeDeployService{
         };
         return this.aws.createDeploymentGroup(params);
     }
-    
+
     async createDeploymentConfig({name, minHealthyHostsNum, minHealthyHostsPercent}){
         if (!name || !(minHealthyHostsNum || minHealthyHostsPercent)) throw "Didn't provide all required parameters.";
         if (minHealthyHostsPercent && minHealthyHostsNum) throw "Can't provide both minimum by number and by percentage.";
@@ -85,7 +86,7 @@ module.exports = class CodeDeployService{
             computePlatform: "Server"
         });
     }
-    
+
     async listRegions(){
         return this.aws.describeRegions({});
     }
@@ -105,20 +106,20 @@ module.exports = class CodeDeployService{
         }
         return items;
     }
-    
+
     async listApps({nextToken, listAll}){
         if (listAll) return this.listAll("listApplications", "applications");
         return this.aws.listApplications({nextToken});
     }
-    
+
     async listRoles({nextToken}){
         return this.aws.listRoles({Marker: nextToken});
     }
-    
+
     async listAutoScalingGroups({nextToken}){
         return this.aws.describeAutoScalingGroups({NextToken: nextToken});
     }
-    
+
     async listDeploymentsConfigs({nextToken, listAll}){
         const validateComputePlatform = (deploymentConfigName) => this.aws.getDeploymentConfig({deploymentConfigName}).computePlatform === "Server";
         if (listAll){
@@ -129,11 +130,11 @@ module.exports = class CodeDeployService{
         result.deploymentConfigsList = result.deploymentConfigsList.filter(validateComputePlatform);
         return result;
     }
-    
+
     async listLoadBalancers({nextToken}){
         return this.aws.describeLoadBalancers({Marker: nextToken});
     }
-    
+
     async listElbTargetGroups({nextToken}){
         return this.aws.describeTargetGroups({Marker: nextToken});
     }
