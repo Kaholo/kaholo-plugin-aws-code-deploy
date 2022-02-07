@@ -22,7 +22,7 @@
       "name": "secretAccessKey",
       "viewName": "Secret key",
       "type": "vault",
-      "description": "The default Access Key Secret to use to authenticate to AWS.",
+      "description": "The default Secret Key to use to authenticate to AWS.",
       "placeholder": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
       "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
     },
@@ -52,7 +52,7 @@
           "name": "secretAccessKey",
           "viewName": "Secret key",
           "type": "vault",
-          "description": "The Access Key Secret to use to authenticate to AWS for this request.",
+          "description": "The Secret Key to use to authenticate to AWS for this request.",
           "placeholder": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
           "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
         },
@@ -99,7 +99,7 @@
           "name": "secretAccessKey",
           "viewName": "Secret key",
           "type": "vault",
-          "description": "The Access Key Secret to use to authenticate to AWS for this request.",
+          "description": "The Secret Key to use to authenticate to AWS for this request.",
           "placeholder": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
           "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
         },
@@ -127,7 +127,7 @@
           "name": "name",
           "viewName": "Name",
           "type": "string",
-          "description": "The name to give the new deployment group.",
+          "description": "The name to give to the new deployment group.",
           "placeholder": "Developers1",
           "learnUrl": "https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CodeDeploy.html#createDeploymentConfig-property"
         },
@@ -237,7 +237,7 @@
           "name": "secretAccessKey",
           "viewName": "Secret key",
           "type": "vault",
-          "description": "The Access Key Secret to use to authenticate to AWS for this request.",
+          "description": "The Secret Key to use to authenticate to AWS for this request.",
           "placeholder": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
           "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
         },
@@ -293,7 +293,7 @@
           "name": "secretAccessKey",
           "viewName": "Secret key",
           "type": "vault",
-          "description": "The Access Key Secret to use to authenticate to AWS for this request.",
+          "description": "The Secret Key to use to authenticate to AWS for this request.",
           "placeholder": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
           "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
         },
@@ -325,7 +325,7 @@
           "name": "secretAccessKey",
           "viewName": "Secret key",
           "type": "vault",
-          "description": "The Access Key Secret to use to authenticate to AWS for this request.",
+          "description": "The Secret Key to use to authenticate to AWS for this request.",
           "placeholder": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
           "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
         },
