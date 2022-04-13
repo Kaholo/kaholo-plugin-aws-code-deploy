@@ -100,11 +100,11 @@ module.exports = class CodeDeployService{
                 result = await this.aws[funcName](params);
                 items.push(...result[outputName]);
             }
+            return items;
         }
         catch (error){
             throw `Problem with listing '${outputName}' using '${funcName}': ${error.message || JSON.stringify(error)}`;
         }
-        return items;
     }
 
     async listApps({nextToken, listAll}){
