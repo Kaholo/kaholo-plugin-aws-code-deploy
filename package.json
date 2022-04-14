@@ -4,11 +4,17 @@
 	"description": "Kaholo plugin for integration with AWS Code Deploy API.",
 	"main": "app.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"lint": "npx eslint .",
+		"lint:fix": "npx eslint . --fix"
 	},
 	"author": "Kaholo Group(Amit Alon)",
 	"license": "ISC",
 	"dependencies": {
 		"aws-sdk": "^2.1021.0"
+	},
+	"devDependencies": {
+		"eslint": "^8.13.0",
+		"eslint-config-airbnb-base": "^15.0.0",
+		"eslint-plugin-import": "^2.26.0"
 	}
 }
