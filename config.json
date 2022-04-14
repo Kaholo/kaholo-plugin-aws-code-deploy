@@ -5,7 +5,7 @@
   "imgUrl": "logo.png",
   "execProgram": "node",
   "main": "app.js",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Integration with AWS Code Deploy API.",
   "category": "CI/CD",
   "keywords": ["aws", "amazon", "code", "cloud", "cluster", "vm", "cli", "instance", "service", "deployment"],
