@@ -5,7 +5,7 @@
   "imgUrl": "logo.png",
   "execProgram": "node",
   "main": "app.js",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "Integration with AWS Code Deploy API.",
   "category": "CI/CD",
   "keywords": ["aws", "amazon", "code", "cloud", "cluster", "vm", "cli", "instance", "service", "deployment"],
@@ -72,7 +72,8 @@
           "type": "string",
           "description": "The name of the application. This name must be unique with the applicable IAM user or AWS account.",
           "placeholder": "kaholoApp",
-          "learnUrl": "https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CodeDeploy.html#createApplication-property"
+          "learnUrl": "https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CodeDeploy.html#createApplication-property",
+          "required": true
         },
         {
           "name": "tags",
@@ -121,7 +122,8 @@
           "functionName": "listAppsAuto",
           "description": "The AWS CodeDeploy application to store the deployment group on.",
           "placeholder": "kaholoApp",
-          "learnUrl": "https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CodeDeploy.html#createDeploymentConfig-property"
+          "learnUrl": "https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CodeDeploy.html#createDeploymentConfig-property",
+          "required": true
         },
         {
           "name": "name",
@@ -129,7 +131,8 @@
           "type": "string",
           "description": "The name to give to the new deployment group.",
           "placeholder": "Developers1",
-          "learnUrl": "https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CodeDeploy.html#createDeploymentConfig-property"
+          "learnUrl": "https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CodeDeploy.html#createDeploymentConfig-property",
+          "required": true
         },
         {
           "name": "serviceRole",
@@ -139,7 +142,8 @@
           "functionName": "listRolesAuto",
           "description": "A service role that allows AWS CodeDeploy to act on the user's behalf when interacting with AWS services.",
           "placeholder": "admin",
-          "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-create-service-role.html"
+          "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-create-service-role.html",
+          "required": true
         },
         {
           "name": "autoScalingGroups",
@@ -147,6 +151,7 @@
           "type": "autocomplete",
           "autocompleteType": "function",
           "functionName": "listAutoScalingGroupsAuto",
+          "parserType": "array",
           "description": "A list of associated Amazon EC2 Auto Scaling groups. You can select up to 10 Amazon EC2 Auto Scaling groups to deploy your application revision to. To enter multiple groups provide an array of their IDs from code.",
           "placeholder": "auto_scale_group1",
           "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html"
@@ -257,22 +262,23 @@
           "type": "string",
           "description": "Deployment configuration name. Up to 100 chars.",
           "placeholder": "config_dev",
-          "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations.html"
+          "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations.html",
+          "required": true
         },
         {
           "name": "minHealthyHostsNum",
           "viewName": "Minimum Healthy Hosts By Number",
-          "type": "string",
+          "type": "int",
           "description": "Specify the minimum number of healthy Amazon EC2 instances that must be available at any time during the deployment.",
-          "placeholder": "5",
+          "placeholder": 5,
           "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations.html"
         },
         {
           "name": "minHealthyHostsPercent",
           "viewName": "Minimum Healthy Hosts By Percentage",
-          "type": "string",
+          "type": "number",
           "description": "Specify the minimum percentage of healthy Amazon EC2 instances out of all the ones provided, that must be available at any time during the deployment. Expects an integer between 1-99.",
-          "placeholder": "1-99",
+          "placeholder": "5",
           "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations.html"
         }
       ]
@@ -311,7 +317,7 @@
     },
     {
       "name": "listDeploymentsConfigs",
-      "viewName": "List EC2 Deployments Configurations",
+      "viewName": "List EC2 Deployment Configurations",
       "params": [
         {
           "name": "accessKeyId",
