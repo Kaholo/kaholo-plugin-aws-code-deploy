@@ -1,7 +1,7 @@
 const awsPluginLibrary = require("kaholo-aws-plugin-library");
 const { fetchRecursively } = require("./helpers");
 
-async function createAwsAutocompleteFunction(
+function createAwsAutocompleteFunction(
   methodName,
   outputDataPath,
   [valuePath, labelPath] = [],
