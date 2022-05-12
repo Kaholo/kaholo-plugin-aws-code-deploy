@@ -1,22 +1,21 @@
 {
-	"name": "kaholo-plugin-aws-code-deploy",
-	"version": "1.0.3",
-	"description": "Kaholo plugin for integration with AWS Code Deploy API.",
-	"main": "app.js",
-	"scripts": {
-		"lint": "npx eslint .",
-		"lint:fix": "npx eslint . --fix"
-	},
-	"author": "Kaholo Group(Amit Alon)",
-	"license": "ISC",
-	"dependencies": {
-		"aws-sdk": "2.1021.0",
-		"kaholo-aws-plugin-library": "github:Kaholo/aws-plugin-library#v1.0.2",
-		"lodash": "4.17.21"
-	},
-	"devDependencies": {
-		"eslint": "8.13.0",
-		"eslint-config-airbnb-base": "15.0.0",
-		"eslint-plugin-import": "2.26.0"
-	}
+  "name": "kaholo-plugin-aws-code-deploy",
+  "description": "Kaholo plugin for integration with AWS Code Deploy API.",
+  "main": "app.js",
+  "scripts": {
+    "lint": "npx eslint .",
+    "lint:fix": "npx eslint . --fix"
+  },
+  "author": "Kaholo Group(Amit Alon)",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "2.1021.0",
+    "kaholo-aws-plugin-library": "github:Kaholo/aws-plugin-library#v1.0.2",
+    "lodash": "4.17.21"
+  },
+  "devDependencies": {
+    "eslint": "8.13.0",
+    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-plugin-import": "2.26.0"
+  }
 }
