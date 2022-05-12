@@ -27,6 +27,10 @@ async function arrayAsyncFilter(array, predicate) {
 }
 
 function parseAwsTags(tagsInput) {
+  if (_.isNil(tagsInput)) {
+    return [];
+  }
+
   if (_.isArray(tagsInput)) {
     validateAwsTags(tagsInput);
     return tagsInput;

@@ -31,7 +31,7 @@ function createAwsAutocompleteFunction(
 module.exports = {
   CodeDeploy: {
     listAppsAuto: createAwsAutocompleteFunction("listApplications", "applications"),
-    listDeploymentsConfigsAuto: createAwsAutocompleteFunction("listDeploymentsConfigs", "deploymentConfigsList"),
+    listDeploymentsConfigsAuto: createAwsAutocompleteFunction("listDeploymentConfigs", "deploymentConfigsList"),
   },
   IAM: {
     listRolesAuto: createAwsAutocompleteFunction("listRoles", "Roles", ["Arn", "RoleName"]),

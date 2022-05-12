@@ -31,23 +31,46 @@ function prepareCreateDeploymentGroupPayload({
   const parsedEc2TagFilters = parseAwsTags(ec2TagFilters).map(addTagType);
   const parsedInstanceTagFilters = parseAwsTags(onPremisesInstanceTagFilters).map(addTagType);
 
-  return {
+  const loadBalancerInfo = {};
+  if (loadBalancingType && loadBalancingType !== "None") {
+    if (loadBalancingType === "Classic" && loadBalancer) {
+      loadBalancerInfo.elbInfoList = [{ name: loadBalancer }];
+    }
+    if (loadBalancingType === "Application" && elbTargetGroup) {
+      loadBalancerInfo.targetGroupInfoList = [{ name: elbTargetGroup }];
+    }
+  }
+
+  const deploymentOption = (
+    !loadBalancingType || loadBalancingType === "None"
+      ? "WITHOUT_TRAFFIC_CONTROL"
+      : "WITH_TRAFFIC_CONTROL"
+  );
+
+  const payload = {
     applicationName: application,
     deploymentGroupName: name,
     serviceRoleArn: serviceRole,
     deploymentConfigName: deploymentConfig,
     deploymentStyle: {
-      deploymentOption: !loadBalancingType || loadBalancingType === "None" ? "WITHOUT_TRAFFIC_CONTROL" : "WITH_TRAFFIC_CONTROL",
+      deploymentOption,
       deploymentType: "IN_PLACE",
     },
-    loadBalancerInfo: !loadBalancingType || loadBalancingType === "None" ? undefined : {
-      elbInfoList: loadBalancingType === "Classic" && loadBalancer ? [{ name: loadBalancer }] : undefined,
-      targetGroupInfoList: loadBalancingType === "Application" && elbTargetGroup ? [{ name: elbTargetGroup }] : undefined,
-    },
-    ec2TagFilters: parsedEc2TagFilters || undefined,
-    onPremisesInstanceTagFilters: parsedInstanceTagFilters || undefined,
     autoScalingGroups,
   };
+
+  if (parsedEc2TagFilters) {
+    payload.ec2TagFilters = parsedEc2TagFilters;
+  }
+  if (parsedInstanceTagFilters) {
+    payload.onPremisesInstanceTagFilters = parsedInstanceTagFilters;
+  }
+
+  if (Object.keys(loadBalancerInfo).length > 0) {
+    payload.loadBalancerInfo = loadBalancerInfo;
+  }
+
+  return payload;
 }
 
 function prepareCreateDeploymentConfigPayload(params) {
