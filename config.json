@@ -1,6 +1,6 @@
 {
-  "id": "aws-codedeploy",
-  "name": "AWS CodeDeploy",
+  "name": "aws-codedeploy",
+  "viewName": "AWS CodeDeploy",
   "type": "executer",
   "imgUrl": "logo.png",
   "execProgram": "node",
@@ -276,9 +276,9 @@
         {
           "name": "minHealthyHostsPercent",
           "viewName": "Minimum Healthy Hosts By Percentage",
-          "type": "number",
+          "type": "float",
           "description": "Specify the minimum percentage of healthy Amazon EC2 instances out of all the ones provided, that must be available at any time during the deployment. Expects an integer between 1-99.",
-          "placeholder": "5",
+          "placeholder": 5.5,
           "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations.html"
         }
       ]
