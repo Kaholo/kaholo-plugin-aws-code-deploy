@@ -57,28 +57,8 @@ module.exports = {
     },
     credentialKeys,
   ),
-  ...awsPluginLibrary.bootstrap(
-    AWS.IAM,
-    {},
-    autocomplete.IAM,
-    credentialKeys,
-  ),
-  ...awsPluginLibrary.bootstrap(
-    AWS.AutoScaling,
-    {},
-    autocomplete.AutoScaling,
-    credentialKeys,
-  ),
-  ...awsPluginLibrary.bootstrap(
-    AWS.ELB,
-    {},
-    autocomplete.ELB,
-    credentialKeys,
-  ),
-  ...awsPluginLibrary.bootstrap(
-    AWS.ELBv2,
-    {},
-    autocomplete.ELBv2,
-    credentialKeys,
-  ),
+  ...awsPluginLibrary.bootstrap(AWS.IAM, {}, autocomplete.IAM, credentialKeys),
+  ...awsPluginLibrary.bootstrap(AWS.AutoScaling, {}, autocomplete.AutoScaling, credentialKeys),
+  ...awsPluginLibrary.bootstrap(AWS.ELB, {}, autocomplete.ELB, credentialKeys),
+  ...awsPluginLibrary.bootstrap(AWS.ELBv2, {}, autocomplete.ELBv2, credentialKeys),
 };
