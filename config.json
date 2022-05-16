@@ -79,6 +79,7 @@
           "name": "tags",
           "viewName": "Tags",
           "type": "text",
+          "parserType": "tags",
           "description": "If specified, tag the application with the tags specified. Each tag should either be in the format of Key=Value or just Key. To enter multiple values separate each with a new line. Also accepts getting an array of objects in the form of { Key, Value } or { Key }.",
           "placeholder": "DEV_APPS\nAuthor=My Name"
         }
@@ -162,12 +163,14 @@
           "type": "text",
           "description": "The Amazon EC2 tags on which to filter. The deployment group includes EC2 instances with any of the specified tags.",
           "placeholder": "tag1\nenv = dev",
+          "parserType": "tags",
           "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/instances-tagging.html"
         },
         {
           "name": "onPremisesInstanceTagFilters",
           "viewName": "Environment On-premises Instances Tag Filters",
           "type": "text",
+          "parserType": "tags",
           "description": "The on-premises instance tags on which to filter. The deployment group includes on-premises instances with any of the specified tags. Can only be provided for 'In-place' deployments type",
           "placeholder": "tag1\nenv = dev",
           "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/instances-tagging.html"

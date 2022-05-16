@@ -1,5 +1,3 @@
-const { parseAwsTags } = require("./helpers");
-
 function prepareCreateApplicationPayload(params) {
   return {
     applicationName: params.name,
@@ -28,8 +26,8 @@ function prepareCreateDeploymentGroupPayload({
   }
 
   const addTagType = (tag) => ({ ...tag, Type: tag.Value ? "KEY_AND_VALUE" : "KEY_ONLY" });
-  const parsedEc2TagFilters = parseAwsTags(ec2TagFilters).map(addTagType);
-  const parsedInstanceTagFilters = parseAwsTags(onPremisesInstanceTagFilters).map(addTagType);
+  const parsedEc2TagFilters = ec2TagFilters.map(addTagType);
+  const parsedInstanceTagFilters = onPremisesInstanceTagFilters.map(addTagType);
 
   const loadBalancerInfo = {};
   if (loadBalancingType && loadBalancingType !== "None") {

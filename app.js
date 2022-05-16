@@ -33,7 +33,9 @@ async function listDeploymentsConfigs(codeDeployClient) {
   const filteredDeploymentConfigs = await arrayAsyncFilter(
     deploymentConfigs,
     async (deploymentConfigName) => {
-      const { computePlatform } = await codeDeployClient.getDeploymentConfig({
+      const {
+        deploymentConfigInfo: { computePlatform },
+      } = await codeDeployClient.getDeploymentConfig({
         deploymentConfigName,
       }).promise();
       return computePlatform === "Server";
