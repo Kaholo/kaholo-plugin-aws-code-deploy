@@ -1,64 +1,66 @@
-const parsers = require("./parsers");
-const CodeDeployService = require("./aws.codeDeploy.service");
+const AWS = require("aws-sdk");
+const awsPluginLibrary = require("kaholo-aws-plugin-library");
+const payloadFunctions = require("./payload-functions");
 const autocomplete = require("./autocomplete");
+const { fetchRecursively, arrayAsyncFilter } = require("./helpers");
+const { credentialKeys } = require("./consts.json");
 
-async function createApplication(action, settings) {
-  const { name, tags } = action.params;
-  const client = CodeDeployService.from(action.params, settings);
-  return client.createApplication({
-    name: parsers.string(name),
-    tags: parsers.tags(tags),
+const simpleAwsMethods = {
+  createApplication: awsPluginLibrary.generateAwsMethod("createApplication", payloadFunctions.prepareCreateApplicationPayload),
+  createDeploymentGroup: awsPluginLibrary.generateAwsMethod("createDeploymentGroup", payloadFunctions.prepareCreateDeploymentGroupPayload),
+  createDeploymentConfig: awsPluginLibrary.generateAwsMethod("createDeploymentConfig", payloadFunctions.prepareCreateDeploymentConfigPayload),
+};
+
+async function listApps(codeDeployClient) {
+  const apps = await fetchRecursively(codeDeployClient, {
+    methodName: "listApplications",
+    outputDataPath: "applications",
+  }).catch((error) => {
+    throw new Error(`Failed to list applications: ${error.message || JSON.stringify(error)}`);
   });
+
+  return { apps };
 }
 
-async function createDeploymentGroup(action, settings) {
-  const {
-    name, ec2TagFilters, onPremisesInstanceTagFilters, loadBalancingType, application,
-    serviceRole, autoScalingGroups, deploymentConfig, loadBalancer, elbTargetGroup,
-  } = action.params;
-
-  const client = CodeDeployService.from(action.params, settings);
-  return client.createDeploymentGroup({
-    application: parsers.autocomplete(application),
-    name: parsers.string(name),
-    serviceRole: parsers.autocomplete(serviceRole),
-    autoScalingGroups: parsers.array(parsers.autocomplete(autoScalingGroups)),
-    ec2TagFilters: parsers.tags(ec2TagFilters),
-    onPremisesInstanceTagFilters: parsers.tags(onPremisesInstanceTagFilters),
-    deploymentConfig: parsers.autocomplete(deploymentConfig),
-    loadBalancingType,
-    loadBalancer: parsers.autocomplete(loadBalancer),
-    elbTargetGroup: parsers.autocomplete(elbTargetGroup),
+async function listDeploymentsConfigs(codeDeployClient) {
+  const deploymentConfigs = await fetchRecursively(codeDeployClient, {
+    methodName: "listDeploymentConfigs",
+    outputDataPath: "deploymentConfigsList",
+  }).catch((error) => {
+    throw new Error(`Failed to list deployment configs: ${error.message || JSON.stringify(error)}`);
   });
-}
 
-async function createDeploymentConfig(action, settings) {
-  const { name, minHealthyHostsNum, minHealthyHostsPercent } = action.params;
+  const filteredDeploymentConfigs = await arrayAsyncFilter(
+    deploymentConfigs,
+    async (deploymentConfigName) => {
+      const {
+        deploymentConfigInfo: { computePlatform },
+      } = await codeDeployClient.getDeploymentConfig({
+        deploymentConfigName,
+      }).promise();
+      return computePlatform === "Server";
+    },
+  );
 
-  const client = CodeDeployService.from(action.params, settings);
-  return client.createDeploymentConfig({
-    name: parsers.string(name),
-    minHealthyHostsNum: parsers.number(minHealthyHostsNum),
-    minHealthyHostsPercent: parsers.number(minHealthyHostsPercent),
-  });
-}
-
-async function listApps(action, settings) {
-  const client = CodeDeployService.from(action.params, settings);
-  return client.listApps({ listAll: true });
-}
-
-async function listDeploymentsConfigs(action, settings) {
-  const client = CodeDeployService.from(action.params, settings);
-  return client.listApps({ listAll: true });
+  return { deploymentConfigs: filteredDeploymentConfigs };
 }
 
 module.exports = {
-  createApplication,
-  createDeploymentGroup,
-  createDeploymentConfig,
-  listApps,
-  listDeploymentsConfigs,
-  // Autocomplete Functions
-  ...autocomplete,
+  ...awsPluginLibrary.bootstrap(
+    AWS.CodeDeploy,
+    {
+      ...simpleAwsMethods,
+      listApps,
+      listDeploymentsConfigs,
+    },
+    {
+      listRegions: awsPluginLibrary.autocomplete.listRegions,
+      ...autocomplete.CodeDeploy,
+    },
+    credentialKeys,
+  ),
+  ...awsPluginLibrary.bootstrap(AWS.IAM, {}, autocomplete.IAM, credentialKeys),
+  ...awsPluginLibrary.bootstrap(AWS.AutoScaling, {}, autocomplete.AutoScaling, credentialKeys),
+  ...awsPluginLibrary.bootstrap(AWS.ELB, {}, autocomplete.ELB, credentialKeys),
+  ...awsPluginLibrary.bootstrap(AWS.ELBv2, {}, autocomplete.ELBv2, credentialKeys),
 };

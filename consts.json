@@ -1,0 +1,7 @@
+{
+  "credentialKeys": {
+    "ACCESS_KEY": "accessKeyId",
+    "SECRET_KEY": "secretAccessKey",
+    "REGION": "region"
+  }
+}
