@@ -1,5 +1,5 @@
 const AWS = require("aws-sdk");
-const awsPluginLibrary = require("kaholo-aws-plugin-library");
+const awsPluginLibrary = require("@kaholo/aws-plugin-library");
 const payloadFunctions = require("./payload-functions");
 const autocomplete = require("./autocomplete");
 const { fetchRecursively, arrayAsyncFilter } = require("./helpers");

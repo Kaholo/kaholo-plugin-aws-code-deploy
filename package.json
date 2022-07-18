@@ -9,8 +9,8 @@
   "author": "Kaholo Group(Amit Alon)",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "2.1021.0",
-    "kaholo-aws-plugin-library": "github:Kaholo/aws-plugin-library#v1.0.2"
+    "@kaholo/aws-plugin-library": "^2.0.0",
+    "aws-sdk": "2.1021.0"
   },
   "devDependencies": {
     "eslint": "8.13.0",
