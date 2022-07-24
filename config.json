@@ -287,6 +287,79 @@
       ]
     },
     {
+      "name": "createDeployment",
+      "viewName": "Create EC2 Deployment from S3",
+      "params": [
+        {
+          "name": "accessKeyId",
+          "viewName": "Access key",
+          "type": "vault",
+          "description": "The Access Key ID to use to authenticate to AWS for this request.",
+          "placeholder": "AKIAIOSFODNN7EXAMPLE",
+          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+        },
+        {
+          "name": "secretAccessKey",
+          "viewName": "Secret key",
+          "type": "vault",
+          "description": "The Secret Key to use to authenticate to AWS for this request.",
+          "placeholder": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+        },
+        {
+          "name": "region",
+          "viewName": "Region",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listRegions",
+          "description": "The AWS region to make this request on.",
+          "placeholder": "us-east-2",
+          "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
+        },
+        {
+          "name": "application",
+          "viewName": "Application",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listAppsAuto",
+          "description": "The AWS CodeDeploy application to deploy.",
+          "placeholder": "kaholoApp",
+          "learnUrl": "https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CodeDeploy.html#createDeployment-property",
+          "required": true
+        },
+        {
+          "name": "deploymentConfig",
+          "viewName": "Deployment Configuration",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listDeploymentsConfigsAuto",
+          "description": "Choose from a list of default and custom deployment configurations. A deployment configuration is a set of rules that determines how fast an application is deployed and the success or failure conditions for a deployment.",
+          "placeholder": "CodeDeployDefault.AllAtOnce",
+          "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations.html",
+          "required": true
+        },
+        {
+          "name": "deploymentGroup",
+          "viewName": "Deployment Group",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listDeploymentGroupsAuto",
+          "description": "Deployment Group within the specified Application.",
+          "placeholder": "kaholoApp_DepGroup",
+          "learnUrl": "https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CodeDeploy.html#createDeployment-property",
+          "required": true
+        },
+        {
+          "name": "s3Location",
+          "viewName": "S3 Location",
+          "type": "string",
+          "description": "Full path to the S3 location with the source code bundle, bundle type will be inferred from the file extension.",
+          "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/tutorials-wordpress-deploy-application.html",
+          "required": true
+        }
+      ]
+    },
+    {
       "name": "listApps",
       "viewName": "List Applications",
       "params": [

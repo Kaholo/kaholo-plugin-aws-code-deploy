@@ -1,5 +1,5 @@
 const AWS = require("aws-sdk");
-const awsPluginLibrary = require("kaholo-aws-plugin-library");
+const awsPluginLibrary = require("@kaholo/aws-plugin-library");
 const payloadFunctions = require("./payload-functions");
 const autocomplete = require("./autocomplete");
 const { fetchRecursively, arrayAsyncFilter } = require("./helpers");
@@ -9,6 +9,7 @@ const simpleAwsMethods = {
   createApplication: awsPluginLibrary.generateAwsMethod("createApplication", payloadFunctions.prepareCreateApplicationPayload),
   createDeploymentGroup: awsPluginLibrary.generateAwsMethod("createDeploymentGroup", payloadFunctions.prepareCreateDeploymentGroupPayload),
   createDeploymentConfig: awsPluginLibrary.generateAwsMethod("createDeploymentConfig", payloadFunctions.prepareCreateDeploymentConfigPayload),
+  createDeployment: awsPluginLibrary.generateAwsMethod("createDeployment", payloadFunctions.prepareCreateDeploymentPayload),
 };
 
 async function listApps(codeDeployClient) {

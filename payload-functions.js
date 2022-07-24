@@ -89,8 +89,35 @@ function prepareCreateDeploymentConfigPayload(params) {
   };
 }
 
+function prepareCreateDeploymentPayload(params) {
+  const payload = {
+    applicationName: params.application,
+    deploymentConfigName: params.deploymentConfig,
+    deploymentGroupName: params.deploymentGroup,
+  };
+
+  const {
+    pathname,
+    hostname: bucket,
+  } = new URL(params.s3Location);
+  const bucketKey = pathname.slice(1);
+  const bundleType = pathname.slice(pathname.lastIndexOf(".") + 1);
+
+  payload.revision = {
+    revisionType: "S3",
+    s3Location: {
+      key: bucketKey,
+      bucket,
+      bundleType,
+    },
+  };
+
+  return payload;
+}
+
 module.exports = {
   prepareCreateApplicationPayload,
   prepareCreateDeploymentGroupPayload,
   prepareCreateDeploymentConfigPayload,
+  prepareCreateDeploymentPayload,
 };
