@@ -45,6 +45,13 @@
       "viewName": "Create EC2 Application",
       "params": [
         {
+          "name": "region",
+          "viewName": "Region",
+          "type": "string",
+          "description": "The ID of the default region to make requests on.",
+          "learnUrl": "https://docs.aws.amazon.com/general/latest/gr/s3.html"
+        },
+        {
           "name": "name",
           "viewName": "Name",
           "type": "string",
@@ -67,6 +74,13 @@
       "name": "createDeploymentGroup",
       "viewName": "Create In-place Deployment Group",
       "params": [
+        {
+          "name": "region",
+          "viewName": "Region",
+          "type": "string",
+          "description": "The ID of the default region to make requests on.",
+          "learnUrl": "https://docs.aws.amazon.com/general/latest/gr/s3.html"
+        },
         {
           "name": "application",
           "viewName": "Application",
@@ -186,6 +200,13 @@
       "viewName": "Create EC2 Deployment Config",
       "params": [
         {
+          "name": "region",
+          "viewName": "Region",
+          "type": "string",
+          "description": "The ID of the default region to make requests on.",
+          "learnUrl": "https://docs.aws.amazon.com/general/latest/gr/s3.html"
+        },
+        {
           "name": "name",
           "viewName": "Name",
           "type": "string",
@@ -216,6 +237,13 @@
       "name": "createDeployment",
       "viewName": "Create EC2 Deployment from S3",
       "params": [
+        {
+          "name": "region",
+          "viewName": "Region",
+          "type": "string",
+          "description": "The ID of the default region to make requests on.",
+          "learnUrl": "https://docs.aws.amazon.com/general/latest/gr/s3.html"
+        },
         {
           "name": "application",
           "viewName": "Application",
@@ -262,12 +290,28 @@
     {
       "name": "listApps",
       "viewName": "List Applications",
-      "params": []
+      "params": [
+        {
+          "name": "region",
+          "viewName": "Region",
+          "type": "string",
+          "description": "The ID of the default region to make requests on.",
+          "learnUrl": "https://docs.aws.amazon.com/general/latest/gr/s3.html"
+        }
+      ]
     },
     {
       "name": "listDeploymentsConfigs",
       "viewName": "List EC2 Deployment Configurations",
-      "params": []
+      "params": [
+        {
+          "name": "region",
+          "viewName": "Region",
+          "type": "string",
+          "description": "The ID of the default region to make requests on.",
+          "learnUrl": "https://docs.aws.amazon.com/general/latest/gr/s3.html"
+        }
+      ]
     }
   ]
 }
