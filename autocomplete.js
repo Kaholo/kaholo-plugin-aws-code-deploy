@@ -9,17 +9,21 @@ function createAwsAutocompleteFunction(
 ) {
   return async (query, params, awsClient) => {
     const payload = buildPayload ? buildPayload(params) : {};
-    const fetchResult = await fetchRecursively(
-      awsClient,
-      {
-        methodName,
-        outputDataPath,
-      },
-      payload,
-    ).catch((error) => {
+
+    let fetchResult;
+    try {
+      fetchResult = await fetchRecursively(
+        awsClient,
+        {
+          methodName,
+          outputDataPath,
+        },
+        payload,
+      );
+    } catch (error) {
       const entityName = outputDataPath.replace(/([a-z])([A-Z])/g, "$1 $2").toLowerCase();
       throw new Error(`Failed to list ${entityName}: ${error.message || JSON.stringify(error)}`);
-    });
+    }
 
     const mappedAutocompleteItems = fetchResult.map((fetchedItem) => {
       const autocompleteValue = valuePath ? fetchedItem[valuePath] : fetchedItem;
