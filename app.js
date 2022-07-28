@@ -9,26 +9,31 @@ const simpleAwsMethods = {
   createApplication: awsPluginLibrary.generateAwsMethod("createApplication", payloadFunctions.prepareCreateApplicationPayload),
   createDeploymentGroup: awsPluginLibrary.generateAwsMethod("createDeploymentGroup", payloadFunctions.prepareCreateDeploymentGroupPayload),
   createDeploymentConfig: awsPluginLibrary.generateAwsMethod("createDeploymentConfig", payloadFunctions.prepareCreateDeploymentConfigPayload),
+  createDeployment: awsPluginLibrary.generateAwsMethod("createDeployment", payloadFunctions.prepareCreateDeploymentPayload),
 };
 
 async function listApps(codeDeployClient) {
-  const apps = await fetchRecursively(codeDeployClient, {
-    methodName: "listApplications",
-    outputDataPath: "applications",
-  }).catch((error) => {
+  try {
+    const apps = await fetchRecursively(codeDeployClient, {
+      methodName: "listApplications",
+      outputDataPath: "applications",
+    });
+    return { apps };
+  } catch (error) {
     throw new Error(`Failed to list applications: ${error.message || JSON.stringify(error)}`);
-  });
-
-  return { apps };
+  }
 }
 
 async function listDeploymentsConfigs(codeDeployClient) {
-  const deploymentConfigs = await fetchRecursively(codeDeployClient, {
-    methodName: "listDeploymentConfigs",
-    outputDataPath: "deploymentConfigsList",
-  }).catch((error) => {
+  let deploymentConfigs;
+  try {
+    deploymentConfigs = await fetchRecursively(codeDeployClient, {
+      methodName: "listDeploymentConfigs",
+      outputDataPath: "deploymentConfigsList",
+    });
+  } catch (error) {
     throw new Error(`Failed to list deployment configs: ${error.message || JSON.stringify(error)}`);
-  });
+  }
 
   const filteredDeploymentConfigs = await arrayAsyncFilter(
     deploymentConfigs,

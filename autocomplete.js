@@ -5,14 +5,25 @@ function createAwsAutocompleteFunction(
   methodName,
   outputDataPath,
   [valuePath, labelPath] = [],
+  buildPayload = null,
 ) {
   return async (query, params, awsClient) => {
-    const fetchResult = await fetchRecursively(awsClient, {
-      methodName,
-      outputDataPath,
-    }).catch((error) => {
-      throw new Error(`Failed to list ${outputDataPath.toLowerCase()}: ${error.message || JSON.stringify(error)}`);
-    });
+    const payload = buildPayload ? buildPayload(params) : {};
+
+    let fetchResult;
+    try {
+      fetchResult = await fetchRecursively(
+        awsClient,
+        {
+          methodName,
+          outputDataPath,
+        },
+        payload,
+      );
+    } catch (error) {
+      const entityName = outputDataPath.replace(/([a-z])([A-Z])/g, "$1 $2").toLowerCase();
+      throw new Error(`Failed to list ${entityName}: ${error.message || JSON.stringify(error)}`);
+    }
 
     const mappedAutocompleteItems = fetchResult.map((fetchedItem) => {
       const autocompleteValue = valuePath ? fetchedItem[valuePath] : fetchedItem;
@@ -32,6 +43,12 @@ module.exports = {
   CodeDeploy: {
     listAppsAuto: createAwsAutocompleteFunction("listApplications", "applications"),
     listDeploymentsConfigsAuto: createAwsAutocompleteFunction("listDeploymentConfigs", "deploymentConfigsList"),
+    listDeploymentGroupsAuto: createAwsAutocompleteFunction(
+      "listDeploymentGroups",
+      "deploymentGroups",
+      [],
+      (params) => ({ applicationName: params.application }),
+    ),
   },
   IAM: {
     listRolesAuto: createAwsAutocompleteFunction("listRoles", "Roles", ["Arn", "RoleName"]),

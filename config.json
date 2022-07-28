@@ -9,30 +9,34 @@
   "description": "Integration with AWS Code Deploy API.",
   "category": "CI/CD",
   "keywords": ["aws", "amazon", "code", "cloud", "cluster", "vm", "cli", "instance", "service", "deployment"],
+  "auth": {
+    "authId": "awsAccount",
+    "params": [
+      {
+        "name": "accessKeyId",
+        "viewName": "Access Key ID",
+        "type": "vault",
+        "description": "The default AWS Access Key ID to use for authentication.",
+        "placeholder": "AKIAIOSFODNN7EXAMPLE",
+        "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+      },
+      {
+        "name": "secretAccessKey",
+        "viewName": "Access Key Secret",
+        "type": "vault",
+        "description": "The default AWS Access Key secret to use for authentication.",
+        "placeholder": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+        "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
+      }
+    ]
+  },
   "settings": [
-    {
-      "name": "accessKeyId",
-      "viewName": "Access key",
-      "type": "vault",
-      "description": "The default Access Key ID to use to authenticate to AWS.",
-      "placeholder": "AKIAIOSFODNN7EXAMPLE",
-      "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
-    },
-    {
-      "name": "secretAccessKey",
-      "viewName": "Secret key",
-      "type": "vault",
-      "description": "The default Secret Key to use to authenticate to AWS.",
-      "placeholder": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
-      "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
-    },
     {
       "name": "region",
       "viewName": "Region",
       "type": "string",
-      "description": "The default AWS region to make requests on.",
-      "placeholder": "us-east-2",
-      "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
+      "description": "The ID of the default region to make requests on.",
+      "learnUrl": "https://docs.aws.amazon.com/general/latest/gr/s3.html"
     }
   ],
   "methods": [
@@ -41,30 +45,11 @@
       "viewName": "Create EC2 Application",
       "params": [
         {
-          "name": "accessKeyId",
-          "viewName": "Access key",
-          "type": "vault",
-          "description": "The Access Key ID to use to authenticate to AWS for this request.",
-          "placeholder": "AKIAIOSFODNN7EXAMPLE",
-          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
-        },
-        {
-          "name": "secretAccessKey",
-          "viewName": "Secret key",
-          "type": "vault",
-          "description": "The Secret Key to use to authenticate to AWS for this request.",
-          "placeholder": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
-          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
-        },
-        {
           "name": "region",
           "viewName": "Region",
-          "type": "autocomplete",
-          "autocompleteType": "function",
-          "functionName": "listRegions",
-          "description": "The AWS region to make this request on.",
-          "placeholder": "us-east-2",
-          "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
+          "type": "string",
+          "description": "The ID of the default region to make requests on.",
+          "learnUrl": "https://docs.aws.amazon.com/general/latest/gr/s3.html"
         },
         {
           "name": "name",
@@ -90,30 +75,11 @@
       "viewName": "Create In-place Deployment Group",
       "params": [
         {
-          "name": "accessKeyId",
-          "viewName": "Access key",
-          "type": "vault",
-          "description": "The Access Key ID to use to authenticate to AWS for this request.",
-          "placeholder": "AKIAIOSFODNN7EXAMPLE",
-          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
-        },
-        {
-          "name": "secretAccessKey",
-          "viewName": "Secret key",
-          "type": "vault",
-          "description": "The Secret Key to use to authenticate to AWS for this request.",
-          "placeholder": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
-          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
-        },
-        {
           "name": "region",
           "viewName": "Region",
-          "type": "autocomplete",
-          "autocompleteType": "function",
-          "functionName": "listRegions",
-          "description": "The AWS region to make this request on.",
-          "placeholder": "us-east-2",
-          "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
+          "type": "string",
+          "description": "The ID of the default region to make requests on.",
+          "learnUrl": "https://docs.aws.amazon.com/general/latest/gr/s3.html"
         },
         {
           "name": "application",
@@ -234,30 +200,11 @@
       "viewName": "Create EC2 Deployment Config",
       "params": [
         {
-          "name": "accessKeyId",
-          "viewName": "Access key",
-          "type": "vault",
-          "description": "The Access Key ID to use to authenticate to AWS for this request.",
-          "placeholder": "AKIAIOSFODNN7EXAMPLE",
-          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
-        },
-        {
-          "name": "secretAccessKey",
-          "viewName": "Secret key",
-          "type": "vault",
-          "description": "The Secret Key to use to authenticate to AWS for this request.",
-          "placeholder": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
-          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
-        },
-        {
           "name": "region",
           "viewName": "Region",
-          "type": "autocomplete",
-          "autocompleteType": "function",
-          "functionName": "listRegions",
-          "description": "The AWS region to make this request on.",
-          "placeholder": "us-east-2",
-          "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
+          "type": "string",
+          "description": "The ID of the default region to make requests on.",
+          "learnUrl": "https://docs.aws.amazon.com/general/latest/gr/s3.html"
         },
         {
           "name": "name",
@@ -287,34 +234,69 @@
       ]
     },
     {
+      "name": "createDeployment",
+      "viewName": "Create EC2 Deployment from S3",
+      "params": [
+        {
+          "name": "region",
+          "viewName": "Region",
+          "type": "string",
+          "description": "The ID of the default region to make requests on.",
+          "learnUrl": "https://docs.aws.amazon.com/general/latest/gr/s3.html"
+        },
+        {
+          "name": "application",
+          "viewName": "Application",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listAppsAuto",
+          "description": "The AWS CodeDeploy application to deploy.",
+          "placeholder": "kaholoApp",
+          "learnUrl": "https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CodeDeploy.html#createDeployment-property",
+          "required": true
+        },
+        {
+          "name": "deploymentConfig",
+          "viewName": "Deployment Configuration",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listDeploymentsConfigsAuto",
+          "description": "Choose from a list of default and custom deployment configurations. A deployment configuration is a set of rules that determines how fast an application is deployed and the success or failure conditions for a deployment.",
+          "placeholder": "CodeDeployDefault.AllAtOnce",
+          "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations.html",
+          "required": true
+        },
+        {
+          "name": "deploymentGroup",
+          "viewName": "Deployment Group",
+          "type": "autocomplete",
+          "autocompleteType": "function",
+          "functionName": "listDeploymentGroupsAuto",
+          "description": "Deployment Group within the specified Application.",
+          "placeholder": "kaholoApp_DepGroup",
+          "learnUrl": "https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CodeDeploy.html#createDeployment-property",
+          "required": true
+        },
+        {
+          "name": "s3Location",
+          "viewName": "S3 Location",
+          "type": "string",
+          "description": "Full path to the S3 location with the source code bundle, bundle type will be inferred from the file extension.",
+          "learnUrl": "https://docs.aws.amazon.com/codedeploy/latest/userguide/tutorials-wordpress-deploy-application.html",
+          "required": true
+        }
+      ]
+    },
+    {
       "name": "listApps",
       "viewName": "List Applications",
       "params": [
         {
-          "name": "accessKeyId",
-          "viewName": "Access key",
-          "type": "vault",
-          "description": "The Access Key ID to use to authenticate to AWS for this request.",
-          "placeholder": "AKIAIOSFODNN7EXAMPLE",
-          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
-        },
-        {
-          "name": "secretAccessKey",
-          "viewName": "Secret key",
-          "type": "vault",
-          "description": "The Secret Key to use to authenticate to AWS for this request.",
-          "placeholder": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
-          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
-        },
-        {
           "name": "region",
           "viewName": "Region",
-          "type": "autocomplete",
-          "autocompleteType": "function",
-          "functionName": "listRegions",
-          "description": "The AWS region to make this request on.",
-          "placeholder": "us-east-2",
-          "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
+          "type": "string",
+          "description": "The ID of the default region to make requests on.",
+          "learnUrl": "https://docs.aws.amazon.com/general/latest/gr/s3.html"
         }
       ]
     },
@@ -323,30 +305,11 @@
       "viewName": "List EC2 Deployment Configurations",
       "params": [
         {
-          "name": "accessKeyId",
-          "viewName": "Access key",
-          "type": "vault",
-          "description": "The Access Key ID to use to authenticate to AWS for this request.",
-          "placeholder": "AKIAIOSFODNN7EXAMPLE",
-          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
-        },
-        {
-          "name": "secretAccessKey",
-          "viewName": "Secret key",
-          "type": "vault",
-          "description": "The Secret Key to use to authenticate to AWS for this request.",
-          "placeholder": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
-          "learnUrl": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey"
-        },
-        {
           "name": "region",
           "viewName": "Region",
-          "type": "autocomplete",
-          "autocompleteType": "function",
-          "functionName": "listRegions",
-          "description": "The AWS region to make this request on.",
-          "placeholder": "us-east-2",
-          "learnUrl": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html"
+          "type": "string",
+          "description": "The ID of the default region to make requests on.",
+          "learnUrl": "https://docs.aws.amazon.com/general/latest/gr/s3.html"
         }
       ]
     }
